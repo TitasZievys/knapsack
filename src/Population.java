@@ -74,40 +74,40 @@ public class Population {
         return indexOfParent;
     }
     //This method selects 2 random different individuals with roulette wheel selection as parents
-    public void selection(){
-        int Parent1Index = getParentIndex();
-        int Parent2Index = getParentIndex();
-        while(Parent1Index == Parent2Index){
-            Parent2Index = getParentIndex();
-        }
-        parent1 = individuals.get(Parent1Index);
-        parent2 = individuals.get(Parent2Index);
-    }
+//    public void selection(){
+//        int Parent1Index = getParentIndex();
+//        int Parent2Index = getParentIndex();
+//        while(Parent1Index == Parent2Index){
+//            Parent2Index = getParentIndex();
+//        }
+//        parent1 = individuals.get(Parent1Index);
+//        parent2 = individuals.get(Parent2Index);
+//    }
 
 
 
 
 
-    public void twoPointCrossover(){
-        int crossoverIndex1 = Knapsack.getRandomNumberInRange(1, parent1.numberOfGenes-2);
-        int crossoverIndex2 = Knapsack.getRandomNumberInRange(crossoverIndex1+1, parent2.numberOfGenes-1);
-        for(int i = 0; i <crossoverIndex1; i++){
-            swap(i);
-        }
-        for(int j = crossoverIndex2; j < parent1.numberOfGenes; j++){
-            swap(j);
-        }
-    }
+//    public void twoPointCrossover(){
+//        int crossoverIndex1 = Knapsack.getRandomNumberInRange(1, parent1.numberOfGenes-2);
+//        int crossoverIndex2 = Knapsack.getRandomNumberInRange(crossoverIndex1+1, parent2.numberOfGenes-1);
+//        for(int i = 0; i <crossoverIndex1; i++){
+//            swap(i);
+//        }
+//        for(int j = crossoverIndex2; j < parent1.numberOfGenes; j++){
+//            swap(j);
+//        }
+//    }
 
-    public void uniformCrossover(){
-        for(int i = 0; i < parent1.numberOfGenes; i++){
-            boolean j = Math.random() > 0.5;
-            System.out.println(j);
-            if (j==true){
-                swap(i);
-            }
-        }
-    }
+//    public void uniformCrossover(){
+//        for(int i = 0; i < parent1.numberOfGenes; i++){
+//            boolean j = Math.random() > 0.5;
+//            System.out.println(j);
+//            if (j==true){
+//                swap(i);
+//            }
+//        }
+//    }
 
     public static boolean mutationProbability() {
         return Math.random() > 0.999; // probability = 1/1000
