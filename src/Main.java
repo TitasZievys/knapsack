@@ -18,12 +18,13 @@ class Main {
         ArrayList<Individual> individuals = population.getIndividuals();
 
         for(Individual in : individuals){
-            System.out.println("Individual " + Arrays.toString(in.getGene()));
+            System.out.println("Individual " + Arrays.toString(in.getGenes()));
         }
         System.out.println("Fittest individual = " + population.findFittest().toString());
         System.out.println("Fitness of all individuals = "+Arrays.toString(population.getFitnessOfAllIndividuals()));
         System.out.println("Probabilities of all individuals to be selected = "+Arrays.toString(population.calculateProbabilities()));
         population.calculateProbabilities();
         population.mutation();
+
     }
 }

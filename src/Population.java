@@ -5,7 +5,7 @@ import java.util.Random;
 public class Population {
     private double[] probability;
     private int[] fitness;
-    private Individual Parent1, Parent2;
+    private Individual parent1, parent2;
     ArrayList<Individual> individuals = new ArrayList<>();
 
 
@@ -50,7 +50,6 @@ public class Population {
 
     // Roulette wheel selection of an individual
     public int getParentIndex() {
-        getFitnessOfAllIndividuals();
         ArrayList<Integer> cumulativeSumArray = new ArrayList<>();
         int sumOfArray = 0;
         for (int i = 0; i < individuals.size(); i++) {
@@ -81,40 +80,27 @@ public class Population {
         while(Parent1Index == Parent2Index){
             Parent2Index = getParentIndex();
         }
-        Parent1 = individuals.get(Parent1Index);
-        Parent2 = individuals.get(Parent2Index);
+        parent1 = individuals.get(Parent1Index);
+        parent2 = individuals.get(Parent2Index);
     }
 
-    public void swap(int index){
-        int temp;
-        temp = Parent1.gene[index];
-        Parent1.gene[index] = Parent2.gene[index];
-        Parent2.gene[index] = temp;
-    }
 
-    public void onePointCrossover(){
-        selection();
-        int crossoverIndex = Knapsack.getRandomNumberInRange(1, Parent1.numberOfGenes-1);
-        for (int i = 0; i <crossoverIndex; i++){
-            swap(i);
-        }
-    }
+
+
 
     public void twoPointCrossover(){
-        selection();
-        int crossoverIndex1 = Knapsack.getRandomNumberInRange(1, Parent1.numberOfGenes-2);
-        int crossoverIndex2 = Knapsack.getRandomNumberInRange(crossoverIndex1+1, Parent2.numberOfGenes-1);
+        int crossoverIndex1 = Knapsack.getRandomNumberInRange(1, parent1.numberOfGenes-2);
+        int crossoverIndex2 = Knapsack.getRandomNumberInRange(crossoverIndex1+1, parent2.numberOfGenes-1);
         for(int i = 0; i <crossoverIndex1; i++){
             swap(i);
         }
-        for(int j = crossoverIndex2; j < Parent1.numberOfGenes; j++){
+        for(int j = crossoverIndex2; j < parent1.numberOfGenes; j++){
             swap(j);
         }
     }
 
     public void uniformCrossover(){
-        selection();
-        for(int i = 0; i < Parent1.numberOfGenes; i++){
+        for(int i = 0; i < parent1.numberOfGenes; i++){
             boolean j = Math.random() > 0.5;
             System.out.println(j);
             if (j==true){
@@ -128,35 +114,35 @@ public class Population {
     }
 
     public void mutation(){
-        onePointCrossover();
-        System.out.println(Parent1);
-        System.out.println(Parent2);
-        for (int i = 0; i <Parent1.numberOfGenes; i++){ // every gene has a chance of mutation
-            int temp1 = Knapsack.getRandomNumberInRange(0, Parent1.numberOfGenes-1);
-            int temp2 = Knapsack.getRandomNumberInRange(0, Parent2.numberOfGenes-1);
-            int parent1RandomGene = Parent1.gene[temp1];
-            int parent2RandomGene = Parent2.gene[temp2];
+
+        System.out.println(parent1);
+        System.out.println(parent2);
+        for (int i = 0; i < parent1.numberOfGenes; i++){ // every gene has a chance of mutation
+            int temp1 = Knapsack.getRandomNumberInRange(0, parent1.numberOfGenes-1);
+            int temp2 = Knapsack.getRandomNumberInRange(0, parent2.numberOfGenes-1);
+            int parent1RandomGene = parent1.genes[temp1];
+            int parent2RandomGene = parent2.genes[temp2];
             if(mutationProbability()){
                 if(parent1RandomGene == 1){
-                    Parent1.gene[temp1] = 0;
+                    parent1.genes[temp1] = 0;
                 }
                 else{
-                    Parent1.gene[temp1] = 1;
+                    parent1.genes[temp1] = 1;
                 }
 
             }
             if(mutationProbability()){
                 if(parent2RandomGene == 1){
-                    Parent2.gene[temp2] = 0;
+                    parent2.genes[temp2] = 0;
                 }
                 else{
-                    Parent2.gene[temp2] = 1;
+                    parent2.genes[temp2] = 1;
                 }
 
             }
         }
-        System.out.println(Parent1);
-        System.out.println(Parent2);
+        System.out.println(parent1);
+        System.out.println(parent2);
     }
 
 
