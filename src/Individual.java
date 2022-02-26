@@ -24,6 +24,7 @@ public class Individual {
     }
 
     public Individual(Knapsack knapsack, int[] genes){
+        this.numberOfGenes = genes.length;
         this.knapsack = knapsack;
         this.genes = genes;
         validate();
