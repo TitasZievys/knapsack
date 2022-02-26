@@ -4,6 +4,7 @@ import java.util.Arrays;
 class Main {
     public static void main(String[] args) {
         Population population = new Population();
+        Evolution evolution = new Evolution();
         Knapsack knapsack = new Knapsack(100, 10);
         knapsack.displayKnapsack();
 
@@ -22,9 +23,16 @@ class Main {
         }
         System.out.println("Fittest individual = " + population.findFittest().toString());
         System.out.println("Fitness of all individuals = "+Arrays.toString(population.getFitnessOfAllIndividuals()));
-        System.out.println("Probabilities of all individuals to be selected = "+Arrays.toString(population.calculateProbabilities()));
-        population.calculateProbabilities();
-        population.mutation();
+        population.getParentIndex();
+
+
+
+
+
+
+        //        System.out.println("Probabilities of all individuals to be selected = "+Arrays.toString(population.calculateProbabilities()));
+//        evolution.onePointCrossover();
+//        population.mutation();
 
     }
 }
