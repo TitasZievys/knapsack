@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 
@@ -52,6 +53,7 @@ public class Population {
     public int getParentIndex() {
         ArrayList<Integer> cumulativeSumArray = new ArrayList<>();
         int sumOfArray = 0;
+
         for (int i = 0; i < individuals.size(); i++) {
             sumOfArray += fitness[i];
             cumulativeSumArray.add(i, sumOfArray);
@@ -143,6 +145,17 @@ public class Population {
         }
         System.out.println(parent1);
         System.out.println(parent2);
+    }
+
+    @Override
+    public String toString() {
+        String populationMembers = "";
+        for(Individual in : individuals){
+            populationMembers += "Individual " + Arrays.toString(in.getGenes()) + "\n";
+
+        }
+        return populationMembers;
+
     }
 
 
