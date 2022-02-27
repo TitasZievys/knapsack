@@ -18,7 +18,7 @@ public class Population {
         individuals.add(individual);
     }
 
-    public Individual findFittest() {
+    public Individual getFittest() {
         Individual fittest = individuals.get(0);
         for (Individual i : individuals) {
             if (fittest.getFitness() <= i.getFitness()) {
@@ -26,6 +26,15 @@ public class Population {
             }
         }
         return fittest;
+    }
+    public Individual getLeastFittest() {
+        Individual leastFittest = individuals.get(0);
+        for (Individual i : individuals) {
+            if (leastFittest.getFitness() >= i.getFitness()) {
+                leastFittest = i;
+            }
+        }
+        return leastFittest;
     }
 
     public int[] getFitnessOfAllIndividuals() {

@@ -1,6 +1,6 @@
 public class Individual {
 
-    private Knapsack knapsack;
+    private final Knapsack knapsack;
     public int[] genes;
     public int numberOfGenes;
 
@@ -79,11 +79,11 @@ public class Individual {
 
     @Override
     public String toString() {
-        String fittest = "";
-        for (int i = 0; i < genes.length; i++) {
-            fittest += String.valueOf(genes[i]) + " ";
+        StringBuilder fittest = new StringBuilder();
+        for (int gene : genes) {
+            fittest.append(String.valueOf(gene)).append(" ");
         }
-        return  fittest;
+        return fittest.toString();
     }
 
 }
