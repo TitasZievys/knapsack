@@ -101,7 +101,7 @@ public class Evolution {
     }
 
     public static boolean mutationProbability() {
-        return Math.random() > 0.999; // probability = 1/1000
+        return Math.random() > 0.99; // probability = 1/1000
     }
 
     public static Individual mutation(Individual child) {
@@ -122,25 +122,11 @@ public class Evolution {
     }
 
 
-//            if(mutationProbability()){
-//                if(parent2RandomGene == 1){
-//                    parent2.genes[temp2] = 0;
-//                }
-//                else{
-//                    parent2.genes[temp2] = 1;
-//                }
-//
-//            }
-//        }
-//        System.out.println(parent1);
-//        System.out.println(parent2);
-//    }
-
         public static Population newGeneration (Population population){
             Population newGen = new Population();
             while (newGen.getIndividuals().size() < population.getIndividuals().size()) {
                 ArrayList<Individual> parents = selection(population);
-                ArrayList<Individual> children = onePointCrossover(parents);
+                ArrayList<Individual> children = twoPointCrossover(parents);
                 Individual mutatedChild1 = mutation(children.get(0));
                 Individual mutatedChild2 = mutation(children.get(1));
                 newGen.addIndividual(mutatedChild1);
@@ -152,4 +138,39 @@ public class Evolution {
             newGen.getFitnessOfAllIndividuals();
             return newGen;
         }
+
+    public static Population newGenerationUniform (Population population){
+        Population newGenUniform = new Population();
+        while (newGenUniform.getIndividuals().size() < population.getIndividuals().size()) {
+            ArrayList<Individual> parents = selection(population);
+            ArrayList<Individual> children = uniformCrossover(parents);
+            Individual mutatedChild = mutation(children.get(0));
+            newGenUniform.addIndividual(mutatedChild);
+            printIndividuals(children, "Children");
+
+        }
+
+        newGenUniform.getFitnessOfAllIndividuals();
+        return newGenUniform;
     }
+
+    public static void  oneMemberElitism(Population previousGeneration, Population thisGeneration){ // fittest individual always copied into population
+        ArrayList<Individual> arraylisttemp = thisGeneration.getIndividuals();
+        Individual leastFittestChild = thisGeneration.getLeastFittest();
+        Individual fittestParentIndividual = previousGeneration.getFittest();
+        if (fittestParentIndividual.getFitness() >= leastFittestChild.getFitness()){
+            arraylisttemp.remove(leastFittestChild);
+            arraylisttemp.add(fittestParentIndividual);
+        }
+
+    }
+
+    public static Population copyOfPopulation(Population oldPopulation){
+        Population newPopulation = new Population();
+        for(Individual i : oldPopulation.getIndividuals()){
+            Individual newIndividual = new Individual(i.getKnapsack(), i.getGenes());
+            newPopulation.addIndividual(newIndividual);
+        }
+        return newPopulation;
+    }
+}
