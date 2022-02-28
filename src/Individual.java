@@ -34,6 +34,7 @@ public class Individual {
         return knapsack;
     }
 
+    //calculates the fitness of an individual in the knapsack
     public int getFitness() {
         int fitness = 0;
         int weight = 0;
@@ -81,7 +82,7 @@ public class Individual {
     public String toString() {
         StringBuilder fittest = new StringBuilder();
         for (int gene : genes) {
-            fittest.append(String.valueOf(gene)).append(" ");
+            fittest.append(gene).append(" ");
         }
         return fittest.toString();
     }

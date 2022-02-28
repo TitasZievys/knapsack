@@ -1,8 +1,8 @@
 public class Knapsack{
-    private int capacity;
-    private int numberOfItems;
-    private int[] weights;
-    private int[] values;
+    private final int capacity;
+    private final int numberOfItems;
+    private final int[] weights;
+    private final int[] values;
 
     public Knapsack(int capacity, int numberOfItems){
         this.capacity = capacity;
