@@ -3,28 +3,27 @@ import java.util.Arrays;
 class Main {
     public static void main(String[] args) {
         Population population = new Population();
-        Knapsack knapsack = new Knapsack(100, 10);
+        Knapsack knapsack = new Knapsack(100, 20); // the number of items changes
         knapsack.displayKnapsack();
-        for(int i = 0; i<10; i++){
+        for(int i = 0; i<100; i++){ // population size changes
             Individual in = new Individual(knapsack);
             population.addIndividual(in);
         }
         System.out.println("Fittest individual = " + population.getFittest().toString());
         System.out.println("Fitness of all individuals = "+Arrays.toString(population.getFitnessOfAllIndividuals()));
         Population offsprings = Evolution.newGenerationUniform(population);
-//        Evolution.oneMemberElitism(population, offsprings);
+        Evolution.replacingFittestElitism(population, offsprings);
         System.out.println("generation " + 0);
         System.out.println(offsprings.toString());
         int count = 0;
         int generationCount = 1;
         int fittestValue = offsprings.getFittest().getFitness();
         while(true) {
-//            Population oldPopulation = Evolution.copyOfPopulation(offsprings);
+            Population oldPopulation = Evolution.copyOfPopulation(offsprings);
             offsprings = Evolution.newGenerationUniform(offsprings);
-//            Evolution.oneMemberElitism(oldPopulation, offsprings);
+            Evolution.replacingFittestElitism(oldPopulation, offsprings);
             System.out.println("generation " + generationCount);
             System.out.println("Fittest value" + offsprings.getFittest().getFitness());
-            System.out.println(offsprings.toString());
             if (fittestValue == offsprings.getFittest().getFitness()){
                 count++;
                 if(count == 100){
@@ -51,9 +50,11 @@ class Main {
                 System.out.println("Value "+knapsack.getValueAt(i) +"    "+"Weight "+ knapsack.getWeightAt(i));
             }
         }
-        System.out.println("Total weight = "+totalWeight);
-        System.out.println("Total value = "+totalValue);
+
 
         System.out.println(offsprings.toString());
+        System.out.println("Total weight = "+totalWeight);
+        System.out.println("Total value = "+totalValue);
+        System.out.println("generation " + generationCount);
     }
 }

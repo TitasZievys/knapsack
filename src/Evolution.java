@@ -1,9 +1,9 @@
 import java.util.ArrayList;
-import java.util.Arrays;
+
 
 public class Evolution {
     //This method selects 2 random different individuals with roulette wheel selection as parents
-    public static ArrayList<Individual> selection(Population population) { //different method for uniformCrossover
+    public static ArrayList<Individual> selection(Population population) {
         int parentIndex1 = population.getParentIndex();
         int parentIndex2 = population.getParentIndex();
 
@@ -15,24 +15,16 @@ public class Evolution {
         ArrayList<Individual> parents = new ArrayList<>();
         parents.add(parent1);
         parents.add(parent2);
-        printIndividuals(parents, "Parents");
         return parents;
     }
-    public static void printIndividuals(ArrayList<Individual> individuals, String name){
-        System.out.println(name);
-        for(Individual individual : individuals){
-            System.out.println(Arrays.toString(individual.getGenes()));
-        }
-    }
 
-
+    // one-point crossover implementation
     public static ArrayList<Individual> onePointCrossover(ArrayList<Individual> parents) {
         Individual parent1 = parents.get(0);
         Individual parent2 = parents.get(1);
         int[] parent1Genes = parent1.getGenes();
         int[] parent2Genes = parent2.getGenes();
         int crossoverIndex = Knapsack.getRandomNumberInRange(0, parent1Genes.length);
-        System.out.println(crossoverIndex);
         int[] child1Genes = new int[parent1Genes.length];
         int[] child2Genes = new int[parent1Genes.length];
         for (int i = 0; i < crossoverIndex; i++) {
@@ -50,7 +42,7 @@ public class Evolution {
         children.add(child2);
         return children;
     }
-
+    // two-point crossover implementation
     public static ArrayList<Individual> twoPointCrossover(ArrayList<Individual> parents) {
         Individual parent1 = parents.get(0);
         Individual parent2 = parents.get(1);
@@ -79,7 +71,7 @@ public class Evolution {
         children.add(child2);
         return children;
     }
-
+    // uniform crossover implementation
     public static ArrayList<Individual> uniformCrossover(ArrayList<Individual> parents) {
         Individual parent1 = parents.get(0);
         Individual parent2 = parents.get(1);
@@ -101,7 +93,7 @@ public class Evolution {
     }
 
     public static boolean mutationProbability() {
-        return Math.random() > 0.99; // probability = 1/1000
+        return Math.random() > 0.999; // probability = 1/1000
     }
 
     public static Individual mutation(Individual child) {
@@ -117,57 +109,65 @@ public class Evolution {
                 }
             }
         }
-        Individual mutatedChild = new Individual(child.getKnapsack(), genes);
-        return mutatedChild;
+        return new Individual(child.getKnapsack(), genes);
     }
 
+    // with this method we create a new generation with either two one of two point crossover strategies
+    public static Population newGeneration(Population population) {
+        Population newGen = new Population();
+        while (newGen.getIndividuals().size() < population.getIndividuals().size()) {
+            ArrayList<Individual> parents = selection(population);
+            ArrayList<Individual> children = twoPointCrossover(parents); // here we include the strategy
+            Individual mutatedChild1 = mutation(children.get(0));
+            Individual mutatedChild2 = mutation(children.get(1));
+            newGen.addIndividual(mutatedChild1);
+            newGen.addIndividual(mutatedChild2);
 
-        public static Population newGeneration (Population population){
-            Population newGen = new Population();
-            while (newGen.getIndividuals().size() < population.getIndividuals().size()) {
-                ArrayList<Individual> parents = selection(population);
-                ArrayList<Individual> children = twoPointCrossover(parents);
-                Individual mutatedChild1 = mutation(children.get(0));
-                Individual mutatedChild2 = mutation(children.get(1));
-                newGen.addIndividual(mutatedChild1);
-                newGen.addIndividual(mutatedChild2);
-                printIndividuals(children, "Children");
-
-            }
-
-            newGen.getFitnessOfAllIndividuals();
-            return newGen;
         }
 
-    public static Population newGenerationUniform (Population population){
+        newGen.getFitnessOfAllIndividuals();
+        return newGen;
+    }
+    // this method creates a new generation with uniformCrossover strategy
+    public static Population newGenerationUniform(Population population) {
         Population newGenUniform = new Population();
         while (newGenUniform.getIndividuals().size() < population.getIndividuals().size()) {
             ArrayList<Individual> parents = selection(population);
             ArrayList<Individual> children = uniformCrossover(parents);
             Individual mutatedChild = mutation(children.get(0));
             newGenUniform.addIndividual(mutatedChild);
-            printIndividuals(children, "Children");
-
         }
 
         newGenUniform.getFitnessOfAllIndividuals();
         return newGenUniform;
     }
 
-    public static void  oneMemberElitism(Population previousGeneration, Population thisGeneration){ // fittest individual always copied into population
-        ArrayList<Individual> arraylisttemp = thisGeneration.getIndividuals();
+    public static void replacingLowestElitism(Population previousGeneration, Population thisGeneration) {
+        ArrayList<Individual> arrayOfThisGeneration = thisGeneration.getIndividuals();
         Individual leastFittestChild = thisGeneration.getLeastFittest();
         Individual fittestParentIndividual = previousGeneration.getFittest();
-        if (fittestParentIndividual.getFitness() >= leastFittestChild.getFitness()){
-            arraylisttemp.remove(leastFittestChild);
-            arraylisttemp.add(fittestParentIndividual);
+        Individual fittestChildIndividual = thisGeneration.getFittest();
+        if (fittestParentIndividual.getFitness() >= fittestChildIndividual.getFitness()) {
+            arrayOfThisGeneration.remove(leastFittestChild);
+            arrayOfThisGeneration.add(fittestParentIndividual);
         }
 
     }
 
-    public static Population copyOfPopulation(Population oldPopulation){
+
+    public static void replacingFittestElitism(Population previousGeneration, Population thisGeneration) {
+        ArrayList<Individual> thisGenerationArray = thisGeneration.getIndividuals();
+        Individual fittestParentIndividual = previousGeneration.getFittest();
+        Individual fittestChildIndividual = thisGeneration.getFittest();
+        if (fittestParentIndividual.getFitness() >= fittestChildIndividual.getFitness()) {
+            thisGenerationArray.remove(fittestChildIndividual);
+            thisGenerationArray.add(fittestParentIndividual);
+        }
+    }
+
+    public static Population copyOfPopulation(Population oldPopulation) {
         Population newPopulation = new Population();
-        for(Individual i : oldPopulation.getIndividuals()){
+        for (Individual i : oldPopulation.getIndividuals()) {
             Individual newIndividual = new Individual(i.getKnapsack(), i.getGenes());
             newPopulation.addIndividual(newIndividual);
         }
