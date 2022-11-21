@@ -16,7 +16,7 @@ for(int i = 0; i<50; i++) // 50 is the population size
 
 
 
-### **For those who are reading and trying to evaluate my code quality:**
+# **For those who are reading and trying to evaluate my code quality:**
 
 Now with having more experience, I can see what project lacks: comments, more commits, etc.
 
