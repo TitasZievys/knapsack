@@ -12,7 +12,7 @@ Knapsack knapsack = new Knapsack(100, 20); // (knapsackWeightCapacity, numberOfI
 for(int i = 0; i<50; i++) // 50 is the population size
 ```
 
-<font size="7">**For those who are reading and trying to evaluate how good my code is**::</font>
+<font size="7">**For those who are reading and trying to evaluate how good my code is:**</font>
 
 Now with having more experience, I can see what project lacks: comments, more commits, etc.
 
