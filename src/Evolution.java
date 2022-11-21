@@ -112,12 +112,12 @@ public class Evolution {
         return new Individual(child.getKnapsack(), genes);
     }
 
-    // with this method we create a new generation with either two one of two point crossover strategies
+    // with this method we create a new generation with the selected crossover strategy
     public static Population newGeneration(Population population) {
         Population newGen = new Population();
         while (newGen.getIndividuals().size() < population.getIndividuals().size()) {
             ArrayList<Individual> parents = selection(population);
-            ArrayList<Individual> children = twoPointCrossover(parents); // here we include the strategy
+            ArrayList<Individual> children = twoPointCrossover(parents); // here we include the strategy (either one point or two point crossover)
             Individual mutatedChild1 = mutation(children.get(0));
             Individual mutatedChild2 = mutation(children.get(1));
             newGen.addIndividual(mutatedChild1);
