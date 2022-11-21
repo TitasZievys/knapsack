@@ -1,12 +1,14 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 
 public class Population {
-    private double[] probability;
     private int[] fitness;
-    private Individual Parent1, Parent2;
     ArrayList<Individual> individuals = new ArrayList<>();
+
+    public Population() {
+    }
 
 
     public ArrayList<Individual> getIndividuals() {
@@ -17,7 +19,7 @@ public class Population {
         individuals.add(individual);
     }
 
-    public Individual findFittest() {
+    public Individual getFittest() {
         Individual fittest = individuals.get(0);
         for (Individual i : individuals) {
             if (fittest.getFitness() <= i.getFitness()) {
@@ -25,6 +27,15 @@ public class Population {
             }
         }
         return fittest;
+    }
+    public Individual getLeastFittest() {
+        Individual leastFittest = individuals.get(0);
+        for (Individual i : individuals) {
+            if (leastFittest.getFitness() >= i.getFitness()) {
+                leastFittest = i;
+            }
+        }
+        return leastFittest;
     }
 
     public int[] getFitnessOfAllIndividuals() {
@@ -35,24 +46,11 @@ public class Population {
         return fitness;
     }
 
-    public double[] calculateProbabilities() {
-        int[] fitness = getFitnessOfAllIndividuals();
-        double denominator = 0;
-        for (int i = 0; i < fitness.length; i++) {
-            denominator += fitness[i];
-        }
-        probability = new double[getFitnessOfAllIndividuals().length];
-        for (int i = 0; i < fitness.length; i++) {
-            probability[i] = fitness[i] / denominator;
-        }
-        return probability;
-    }
-
-    // Roulette wheel selection of an individual
+    // roulette wheel selection - gets the index of the parent chosen by a probability
     public int getParentIndex() {
-        getFitnessOfAllIndividuals();
         ArrayList<Integer> cumulativeSumArray = new ArrayList<>();
         int sumOfArray = 0;
+
         for (int i = 0; i < individuals.size(); i++) {
             sumOfArray += fitness[i];
             cumulativeSumArray.add(i, sumOfArray);
@@ -74,89 +72,16 @@ public class Population {
         //returns the index of the parent individual for the selection process
         return indexOfParent;
     }
-    //This method selects 2 random different individuals with roulette wheel selection as parents
-    public void selection(){
-        int Parent1Index = getParentIndex();
-        int Parent2Index = getParentIndex();
-        while(Parent1Index == Parent2Index){
-            Parent2Index = getParentIndex();
+
+    @Override
+    public String toString() {
+        StringBuilder populationMembers = new StringBuilder();
+        for(Individual in : individuals){
+            populationMembers.append("Individual ").append(Arrays.toString(in.getGenes())).append("\n");
+
         }
-        Parent1 = individuals.get(Parent1Index);
-        Parent2 = individuals.get(Parent2Index);
-    }
+        return populationMembers.toString();
 
-    public void swap(int index){
-        int temp;
-        temp = Parent1.gene[index];
-        Parent1.gene[index] = Parent2.gene[index];
-        Parent2.gene[index] = temp;
-    }
-
-    public void onePointCrossover(){
-        selection();
-        int crossoverIndex = Knapsack.getRandomNumberInRange(1, Parent1.numberOfGenes-1);
-        for (int i = 0; i <crossoverIndex; i++){
-            swap(i);
-        }
-    }
-
-    public void twoPointCrossover(){
-        selection();
-        int crossoverIndex1 = Knapsack.getRandomNumberInRange(1, Parent1.numberOfGenes-2);
-        int crossoverIndex2 = Knapsack.getRandomNumberInRange(crossoverIndex1+1, Parent2.numberOfGenes-1);
-        for(int i = 0; i <crossoverIndex1; i++){
-            swap(i);
-        }
-        for(int j = crossoverIndex2; j < Parent1.numberOfGenes; j++){
-            swap(j);
-        }
-    }
-
-    public void uniformCrossover(){
-        selection();
-        for(int i = 0; i < Parent1.numberOfGenes; i++){
-            boolean j = Math.random() > 0.5;
-            System.out.println(j);
-            if (j==true){
-                swap(i);
-            }
-        }
-    }
-
-    public static boolean mutationProbability() {
-        return Math.random() > 0.999; // probability = 1/1000
-    }
-
-    public void mutation(){
-        onePointCrossover();
-        System.out.println(Parent1);
-        System.out.println(Parent2);
-        for (int i = 0; i <Parent1.numberOfGenes; i++){ // every gene has a chance of mutation
-            int temp1 = Knapsack.getRandomNumberInRange(0, Parent1.numberOfGenes-1);
-            int temp2 = Knapsack.getRandomNumberInRange(0, Parent2.numberOfGenes-1);
-            int parent1RandomGene = Parent1.gene[temp1];
-            int parent2RandomGene = Parent2.gene[temp2];
-            if(mutationProbability()){
-                if(parent1RandomGene == 1){
-                    Parent1.gene[temp1] = 0;
-                }
-                else{
-                    Parent1.gene[temp1] = 1;
-                }
-
-            }
-            if(mutationProbability()){
-                if(parent2RandomGene == 1){
-                    Parent2.gene[temp2] = 0;
-                }
-                else{
-                    Parent2.gene[temp2] = 1;
-                }
-
-            }
-        }
-        System.out.println(Parent1);
-        System.out.println(Parent2);
     }
 
 
