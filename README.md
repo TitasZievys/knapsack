@@ -1,18 +1,6 @@
 # knapsack
 This is a knapsack problem program that was used for my Extended Essay which is attached below. It was created to see how elitism could reduce the generation count needed to solve the problem while using roulette wheel selection.
-You choose the parameters of the knapsack in the main function:
-
-(line 6 in Main.java)
-```
-Knapsack knapsack = new Knapsack(100, 20); // (knapsackWeightCapacity, numberOfItems)
-```
-
-(line 8 in Main.java)
-```
-for(int i = 0; i<50; i++) // 50 is the population size
-```
-
-
+You choose the parameters of the knapsack in the Main class.
 
 
 
