@@ -117,7 +117,7 @@ public class Evolution {
         Population newGen = new Population();
         while (newGen.getIndividuals().size() < population.getIndividuals().size()) {
             ArrayList<Individual> parents = selection(population);
-            ArrayList<Individual> children = twoPointCrossover(parents); // here we include the strategy (either one point or two point crossover)
+            ArrayList<Individual> children = twoPointCrossover(parents); // choose onePointCrossover or twoPointCrossover
             Individual mutatedChild1 = mutation(children.get(0));
             Individual mutatedChild2 = mutation(children.get(1));
             newGen.addIndividual(mutatedChild1);
