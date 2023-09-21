@@ -2,8 +2,9 @@ import java.util.Arrays;
 
 class Main {
     public static void main(String[] args) {
+        long startTime = System.currentTimeMillis();
         Population population = new Population();
-        Knapsack knapsack = new Knapsack(100, 20); // (capacity, numberOfItems) - change to your liking
+        Knapsack knapsack = new Knapsack(100, 100); // (capacity, numberOfItems) - change to your liking
         knapsack.displayKnapsack();
         System.out.println("\n");
         for(int i = 0; i<50; i++){ // i < your selected population size
@@ -52,5 +53,9 @@ class Main {
         System.out.println("Total weight = "+totalWeight);
         System.out.println("Total value = "+totalValue);
         System.out.println("generation " + generationCount);
+
+        long endTime = System.currentTimeMillis();
+        long executionTime = endTime - startTime;
+        System.out.println("Execution time: " + executionTime + " milliseconds");
     }
 }
